@@ -15,6 +15,6 @@ Most players are neutral chrome. Kala picks a niche — the night-sky film — a
 - **Live demo (Project URL + Live-site URL):** https://andipangeranm142.github.io/kala-videojs-skin/
 - **Player-only view:** https://andipangeranm142.github.io/kala-videojs-skin/preview.html
 - **Repository:** https://github.com/andiPangeranm142/kala-videojs-skin
-- **Mux playback ID:** _to be added after the Daylight upload — see `apps/preview/src/media-config.ts`_
+- **Mux playback ID:** `vZP00W02N75fyj6ggx3nXshMRBCqMSAi8NZQiJN602ndwo` (asset "daylight-earth", public, Ready — akun Mux Free ndiipangeran454@gmail.com, environment KALA)
 - **License:** Apache 2.0 (ownership stays with the participant)
 - **Media:** `assets/submission/` — screenshots (1600×1200) + demo video

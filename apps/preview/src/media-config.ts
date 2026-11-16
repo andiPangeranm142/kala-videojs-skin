@@ -10,7 +10,7 @@
 // while the challenge is judged.
 
 /** Public playback ID of OUR Mux asset (empty until the upload is done). */
-export const MUX_PLAYBACK_ID = '';
+export const MUX_PLAYBACK_ID = 'vZP00W02N75fyj6ggx3nXshMRBCqMSAi8NZQiJN602ndwo';
 
 export interface Footage {
   id: string;
@@ -73,7 +73,7 @@ export const FOOTAGE: Record<string, Footage> = {
 };
 
 /** Footage the demo opens with. */
-export const DEFAULT_FOOTAGE = 'cosmic-dawn';
+export const DEFAULT_FOOTAGE = 'daylight-mux';
 
 /** Footage offered in the demo page switcher (the Mux entry appears only when configured). */
 export function availableFootage(): Footage[] {
