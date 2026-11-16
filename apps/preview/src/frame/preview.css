@@ -1,0 +1,40 @@
+/* The page around the player in the preview frame. Dark observatory night, to
+   match the skin's own backdrop. */
+:root {
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(900px 500px at 85% -10%, rgba(129, 140, 248, 0.14), transparent 60%),
+    radial-gradient(700px 400px at 5% 0%, rgba(94, 234, 212, 0.08), transparent 55%),
+    #04060f;
+}
+
+.preview-page {
+  display: grid;
+  place-items: center;
+  box-sizing: border-box;
+  min-height: 100vh;
+  padding: 24px;
+}
+
+.preview-player {
+  width: 100%;
+  max-width: var(--preview-player-width, 56rem);
+}
+
+/* The aspect ratio option overrides the skin's own; `auto` lets the media's intrinsic size decide. */
+.preview-player[style*="--preview-player-ratio"] .media-skin {
+  aspect-ratio: var(--preview-player-ratio);
+}
+
+/* Player elements only provide state; the skin inside them is the box that gets sized. */
+media-i18n,
+video-player,
+live-video-player,
+audio-player,
+live-audio-player {
+  display: contents;
+}

@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>KALA — An Observatory Player · Video.js Skin</title>
+    <meta
+      name="description"
+      content="Kala is an observatory player skin for Video.js v10: the timeline is a horizon, chapters are stars, progress is an aurora. Built for the Contra Video.js Skins Design Challenge."
+    />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2304060f'/%3E%3Cpath d='M16 5c.8 5.6 2.4 8.8 11 10.4-8.6 1.6-10.2 4.8-11 10.6-.8-5.8-2.4-9-11-10.6C13.6 13.8 15.2 10.6 16 5z' fill='%23fbbf24'/%3E%3C/svg%3E"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <canvas id="starfield" aria-hidden="true"></canvas>
+
+    <header class="site-header">
+      <a class="wordmark" href="#top" aria-label="Kala — back to top">
+        <svg class="wordmark-star" viewBox="0 0 18 18" aria-hidden="true">
+          <path
+            fill="currentColor"
+            d="M9 2.5c.5 3.5 1.5 5.5 6.5 6.5-5 1-6 3-6.5 6.5-.5-3.5-1.5-5.5-6.5-6.5 5-1 6-3 6.5-6.5z"
+          />
+        </svg>
+        KALA
+      </a>
+      <nav class="site-nav" aria-label="Page">
+        <a href="#concept">Concept</a>
+        <a href="#anatomy">Anatomy</a>
+        <a href="#skies">Skies</a>
+        <a href="#footage">Footage</a>
+        <a href="#keyboard">Keyboard</a>
+        <a href="#accessibility">Accessibility</a>
+      </nav>
+      <div class="site-links">
+        <a href="./preview.html">Player only</a>
+        <a href="https://contra.com/community/topic/videojsskinschallenge">Challenge</a>
+        <a href="https://github.com/andiPangeranm142/kala-videojs-skin">GitHub</a>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <p class="eyebrow">Video.js Skins Design Challenge &middot; Contra &times; Mux</p>
+        <h1 class="hero-title">Kala</h1>
+        <p class="hero-tagline">An observatory player for the videos you watch in the dark.</p>
+        <p class="hero-sub">
+          <em>Kala</em> — Sanskrit &amp; Indonesian for <em>time</em>. A Video.js v10 skin that treats
+          every video as a night sky: the timeline is a horizon, chapters are stars, and progress
+          is an aurora rolling across it. Built for slow cinema, space documentaries, and
+          night-sky films — the kind of video you watch with the lights off.
+        </p>
+
+        <div class="stage" id="stage" data-sky="midnight">
+          <div class="ambient" aria-hidden="true">
+            <video
+              id="ambient-video"
+              src="./footage/daylight-earth.mp4"
+              muted
+              loop
+              playsinline
+              autoplay
+              preload="metadata"
+            ></video>
+          </div>
+          <div class="hero-player" id="hero-player"></div>
+        </div>
+
+        <div class="stage-controls">
+          <div class="control-group" role="group" aria-label="Sky theme">
+            <span class="control-label">Sky</span>
+            <div class="segmented" id="sky-switcher">
+              <button type="button" data-sky="midnight" aria-pressed="true">
+                <span class="swatch swatch-midnight" aria-hidden="true"></span>Midnight
+              </button>
+              <button type="button" data-sky="aurora" aria-pressed="false">
+                <span class="swatch swatch-aurora" aria-hidden="true"></span>Aurora
+              </button>
+              <button type="button" data-sky="ember" aria-pressed="false">
+                <span class="swatch swatch-ember" aria-hidden="true"></span>Ember
+              </button>
+            </div>
+          </div>
+          <div class="control-group" role="group" aria-label="Footage">
+            <span class="control-label">Footage</span>
+            <div class="segmented" id="footage-switcher">
+              <button type="button" data-footage="cosmic-dawn" aria-pressed="true">Cosmic Dawn</button>
+              <button type="button" data-footage="daylight" aria-pressed="false">Daylight</button>
+            </div>
+          </div>
+          <div class="control-group">
+            <span class="control-label">Ambient glow</span>
+            <button type="button" class="toggle" id="ambient-toggle" aria-pressed="true">
+              <span class="toggle-knob" aria-hidden="true"></span>
+              <span class="toggle-text">On</span>
+            </button>
+          </div>
+        </div>
+        <p class="footage-note" id="footage-note"></p>
+      </section>
+
+      <section class="section" id="concept">
+        <p class="section-eyebrow">01 &middot; The concept</p>
+        <h2>Why an observatory?</h2>
+        <p class="section-lede">
+          Most players are neutral chrome. Kala picks a niche — the night-sky film — and commits
+          to it, so every detail has a reason to exist.
+        </p>
+        <div class="pillars">
+          <article class="pillar">
+            <h3>Time, made visible</h3>
+            <p>
+              The Night Arc turns the timeline into a horizon line. Chapter stars mark the
+              moments that matter, the moon thumb glows as it travels, and the live chapter
+              line under the title always tells you where in the night you are.
+            </p>
+          </article>
+          <article class="pillar">
+            <h3>Cinema for the dark</h3>
+            <p>
+              A floating glass console, an eclipse play button, aurora progress. The chrome is
+              designed to sit over footage — bright launch skies or black space — without ever
+              shouting over it.
+            </p>
+          </article>
+          <article class="pillar">
+            <h3>An instrument, not a decoration</h3>
+            <p>
+              Every control is keyboard-operable, labelled, and reachable by touch. The
+              shortcuts guide is one <kbd>?</kbd> away, and the skin stays readable with
+              reduced motion, high contrast, and forced colors.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="anatomy">
+        <p class="section-eyebrow">02 &middot; Anatomy</p>
+        <h2>Everything in the frame earns its place.</h2>
+        <div class="feature-grid">
+          <article class="feature">
+            <h3>The Night Arc</h3>
+            <p>
+              A horizon-line seek bar with an aurora gradient fill, a glowing moon thumb, and a
+              buffered shimmer. It swells under your pointer; the hover card shows a live
+              thumbnail, time, and chapter.
+            </p>
+          </article>
+          <article class="feature">
+            <h3>Chapter stars</h3>
+            <p>
+              Every chapter boundary is a twinkling star on the arc. Hover one to preview its
+              moment; the title block names the chapter you are in.
+            </p>
+          </article>
+          <article class="feature">
+            <h3>The Eclipse</h3>
+            <p>
+              The big play button is a glowing ring with a breathing halo while paused, flanked
+              by &plusmn;10s seek buttons. Double-tap the sides to seek; double-tap the middle
+              for fullscreen.
+            </p>
+          </article>
+          <article class="feature">
+            <h3>Inline volume</h3>
+            <p>
+              The volume slider unfurls from the mute button on hover or focus, with a live
+              percentage pill. On touch it stays open where there is room.
+            </p>
+          </article>
+          <article class="feature">
+            <h3>Full settings menu</h3>
+            <p>
+              Quality (with live HLS renditions), audio tracks, playback speed, and captions —
+              in a glass menu with submenus, all keyboard navigable.
+            </p>
+          </article>
+          <article class="feature">
+            <h3>Keyboard field guide</h3>
+            <p>
+              Press <kbd>?</kbd> or the keyboard button for the full shortcut map — play, seek,
+              volume, fullscreen, PiP, captions, speed, and jump-to-percentage keys.
+            </p>
+          </article>
+          <article class="feature">
+            <h3>Three skies</h3>
+            <p>
+              Midnight, Aurora, and Ember re-tint the whole aurora live — the gradient, the
+              thumb glow, and the ambient light around the player.
+            </p>
+          </article>
+          <article class="feature">
+            <h3>Feedback, everywhere</h3>
+            <p>
+              Glass pills confirm volume, seek, fullscreen, PiP, and caption changes; the
+              orbiting-dot spinner marks buffering; screen-reader announcements narrate state.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="skies">
+        <p class="section-eyebrow">03 &middot; Skies</p>
+        <h2>One player, three night skies.</h2>
+        <p class="section-lede">
+          Pick a sky — the hero player above changes with it. The skin also honours the public
+          <code>--media-accent-color</code> property, so any site can re-tint it.
+        </p>
+        <div class="sky-cards">
+          <button type="button" class="sky-card" data-sky-target="midnight">
+            <span class="sky-card-gradient sky-card-midnight" aria-hidden="true"></span>
+            <span class="sky-card-name">Midnight</span>
+            <span class="sky-card-desc">Teal to violet to lantern amber. The default night.</span>
+          </button>
+          <button type="button" class="sky-card" data-sky-target="aurora">
+            <span class="sky-card-gradient sky-card-aurora" aria-hidden="true"></span>
+            <span class="sky-card-name">Aurora</span>
+            <span class="sky-card-desc">Green fire over ice blue. For the polar shows.</span>
+          </button>
+          <button type="button" class="sky-card" data-sky-target="ember">
+            <span class="sky-card-gradient sky-card-ember" aria-hidden="true"></span>
+            <span class="sky-card-name">Ember</span>
+            <span class="sky-card-desc">Sunset amber into rose. Dusk at the observatory.</span>
+          </button>
+        </div>
+      </section>
+
+      <section class="section" id="footage">
+        <p class="section-eyebrow">04 &middot; Footage</p>
+        <h2>Readable on bright skies and black space alike.</h2>
+        <p class="section-lede">
+          Switch the footage above: <strong>Cosmic Dawn</strong> is the James Webb story, dark
+          clean rooms and golden mirrors; <strong>Daylight</strong> is bright Earth from the
+          ISS. The glass console, scrims, and lantern focus ring are built to hold contrast
+          against both.
+        </p>
+        <div class="footage-cards">
+          <article class="footage-card">
+            <img
+              src="https://image.mux.com/83EzHOvVzVN01AsrD01BCpiH02Pj3S8mfzBOu101w2nHC5s/thumbnail.webp?time=69"
+              alt="Space Shuttle launching — a frame from Cosmic Dawn"
+              loading="lazy"
+              decoding="async"
+            />
+            <h3>Cosmic Dawn</h3>
+            <p>The voyage to the Webb telescope. Archival NASA footage, streamed from Mux with chapters and HLS quality levels.</p>
+            <p class="footage-meta">1:51 &middot; 4 chapters &middot; Mux HLS</p>
+          </article>
+          <article class="footage-card">
+            <img
+              src="./footage/daylight-earth-poster.jpg"
+              alt="Bright daylight Earth horizon seen from the International Space Station"
+              loading="lazy"
+              decoding="async"
+            />
+            <h3>Daylight — Earth from Space</h3>
+            <p>Expedition 65 over bright cloud seas, closing with an aurora. NASA, public domain.</p>
+            <p class="footage-meta">2:00 &middot; 4 chapters &middot; MP4</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="compact">
+        <p class="section-eyebrow">05 &middot; Small screens</p>
+        <h2>The same instrument, pocket-sized.</h2>
+        <p class="section-lede">
+          Below 26rem the bar sheds its secondary buttons into the Settings menu, the time
+          readout collapses to a toggle, and touch targets stay 44&thinsp;px. Try it — this
+          player is live.
+        </p>
+        <div class="compact-stage">
+          <div class="compact-player" id="compact-player"></div>
+        </div>
+      </section>
+
+      <section class="section" id="keyboard">
+        <p class="section-eyebrow">06 &middot; Keyboard</p>
+        <h2>Every control answers to keys.</h2>
+        <div class="kbd-table-wrap">
+          <table class="kbd-table">
+            <thead>
+              <tr>
+                <th scope="col">Action</th>
+                <th scope="col">Keys</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Play / pause</td><td><kbd>Space</kbd> <kbd>K</kbd></td></tr>
+              <tr><td>Seek back / forward 10s</td><td><kbd>J</kbd> <kbd>L</kbd> <kbd>&larr;</kbd> <kbd>&rarr;</kbd></td></tr>
+              <tr><td>Volume up / down</td><td><kbd>&uarr;</kbd> <kbd>&darr;</kbd></td></tr>
+              <tr><td>Mute / unmute</td><td><kbd>M</kbd></td></tr>
+              <tr><td>Fullscreen</td><td><kbd>F</kbd></td></tr>
+              <tr><td>Picture-in-picture</td><td><kbd>I</kbd></td></tr>
+              <tr><td>Captions</td><td><kbd>C</kbd></td></tr>
+              <tr><td>Jump to 0&ndash;90% of the video</td><td><kbd>0</kbd>&ndash;<kbd>9</kbd></td></tr>
+              <tr><td>Start / end</td><td><kbd>Home</kbd> <kbd>End</kbd></td></tr>
+              <tr><td>Playback speed</td><td><kbd>&lt;</kbd> <kbd>&gt;</kbd></td></tr>
+              <tr><td>Shortcuts guide</td><td><kbd>?</kbd></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="section" id="accessibility">
+        <p class="section-eyebrow">07 &middot; Accessibility</p>
+        <h2>Built to be used by everyone.</h2>
+        <ul class="a11y-list">
+          <li>
+            <strong>Keyboard-first.</strong> Tab order follows the visual layout; the amber focus
+            ring carries a dark halo so it reads on bright and dark frames.
+          </li>
+          <li>
+            <strong>Screen-reader friendly.</strong> Every control is labelled, sliders expose
+            their values, and a live region announces play, pause, seek, volume, and
+            fullscreen changes.
+          </li>
+          <li>
+            <strong>Contrast, tested both ways.</strong> The console, scrims, and text shadows
+            hold up over the bright Daylight footage and the black of space.
+          </li>
+          <li>
+            <strong>Touch targets.</strong> 44&thinsp;px buttons, a tall seek hit-area, and
+            double-tap gestures for seek and fullscreen.
+          </li>
+          <li>
+            <strong>Reduced motion.</strong> The halo, twinkle, and ambient drift all stop when
+            <code>prefers-reduced-motion</code> is set.
+          </li>
+          <li>
+            <strong>Forced colors &amp; high contrast.</strong> Dedicated styles keep every
+            control legible in Windows High Contrast and with reduced transparency.
+          </li>
+        </ul>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <p class="footer-mark">
+          <svg class="wordmark-star" viewBox="0 0 18 18" aria-hidden="true">
+            <path
+              fill="currentColor"
+              d="M9 2.5c.5 3.5 1.5 5.5 6.5 6.5-5 1-6 3-6.5 6.5-.5-3.5-1.5-5.5-6.5-6.5 5-1 6-3 6.5-6.5z"
+            />
+          </svg>
+          KALA
+        </p>
+        <p>
+          A Video.js v10 skin by <strong>Andi Pangeran</strong> for the Contra Video.js Skins
+          Design Challenge. Skin source is Apache-2.0 licensed.
+        </p>
+        <p class="footer-credits">
+          Footage: <em>Cosmic Dawn</em> (NASA archival footage, via the Video.js scaffold demo
+          stream on Mux) and <em>Earth from Space, Expedition 65</em> (NASA, public domain).
+          Type: Fraunces, Inter, IBM Plex Mono. Built with Video.js v10 and Mux.
+        </p>
+        <nav class="footer-links" aria-label="Footer">
+          <a href="https://github.com/andiPangeranm142/kala-videojs-skin">GitHub repository</a>
+          <a href="./preview.html">Player-only view</a>
+          <a href="./workbench.html">Workbench</a>
+          <a href="https://contra.com/community/topic/videojsskinschallenge">Challenge page</a>
+          <a href="https://videojs.org">Video.js</a>
+        </nav>
+      </div>
+    </footer>
+
+    <script type="module" src="/src/showcase/main.ts"></script>
+  </body>
+</html>
