@@ -39,7 +39,9 @@ async function startForwarder(localPort = 3129) {
   const forwarder = await startForwarder();
   const browser = await chromium.launch({
     proxy: { server: 'http://127.0.0.1:3129', bypass: 'localhost,127.0.0.1' },
-    args: ['--autoplay-policy=no-user-gesture-required'],
+    // The window must match the recording size, or the fullscreen segment is
+    // captured at half size and padded with gray (seen in the first recording).
+    args: ['--autoplay-policy=no-user-gesture-required', '--window-size=1600,1200'],
   });
 
   try {
@@ -155,9 +157,15 @@ async function startForwarder(localPort = 3129) {
       const mp4 = path.join(OUT, 'kala-demo.mp4');
       const trim = Math.max(0, (tPlay - t0) / 1000 - 1);
       console.log('trimming first', trim.toFixed(1), 's');
+      // Clean, player-friendly encode: CFR 25fps, keyframe every 2s, moov up
+      // front. (The first encode's irregular GOP — keyframes up to ~6s apart
+      // — stuttered badly on phones.)
       execFileSync('ffmpeg', ['-v', 'error', '-y', '-ss', String(trim), '-i', videoPath,
-        '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-crf', '20', '-preset', 'medium',
-        '-movflags', '+faststart', mp4], { stdio: 'inherit' });
+        '-vf', 'fps=25', '-r', '25', '-vsync', 'cfr',
+        '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-profile:v', 'high', '-level', '4.0',
+        '-crf', '19', '-preset', 'medium',
+        '-g', '50', '-keyint_min', '50', '-sc_threshold', '0',
+        '-video_track_timescale', '25', '-movflags', '+faststart', '-an', mp4], { stdio: 'inherit' });
       const stat = fs.statSync(mp4);
       console.log('mp4:', mp4, (stat.size / 1024 / 1024).toFixed(1), 'MB');
       execFileSync('ffprobe', ['-v', 'error', '-show_entries', 'format=duration',
