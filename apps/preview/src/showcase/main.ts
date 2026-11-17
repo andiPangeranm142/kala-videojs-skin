@@ -115,6 +115,12 @@ function wireControls(): void {
     button.addEventListener('click', () => setFootage(button.dataset.footage ?? ''));
   }
 
+  // Sync the initial pressed state with the footage the player actually
+  // opened with (DEFAULT_FOOTAGE), so the switcher can never disagree
+  // with the loaded video.
+  for (const button of document.querySelectorAll<HTMLButtonElement>('#footage-switcher button'))
+    button.setAttribute('aria-pressed', String(button.dataset.footage === currentFootage.id));
+
   const ambientToggle = document.querySelector<HTMLButtonElement>('#ambient-toggle');
 
   if (ambientToggle && ambientVideo) {
